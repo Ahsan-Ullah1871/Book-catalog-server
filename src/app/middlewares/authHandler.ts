@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-expressions */
 
 import { Request, Response, NextFunction } from 'express'
-import { IUser_role } from '../../interfaces/common'
 import ApiError from '../errors/ApiError'
 import httpStatus from 'http-status'
 import { jwtHelper } from '../../helpers/jwtHelper'
@@ -10,7 +9,7 @@ import { Secret } from 'jsonwebtoken'
 
 // requestValidationHandler
 const authHandler =
-  (...user_roles: IUser_role[]) =>
+  () =>
   async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       //   check authorization
@@ -24,7 +23,7 @@ const authHandler =
         token,
         config.jwt.access_token_secret as Secret
       )
-      const { _id, role } = decoded_user
+      const { _id, email } = decoded_user
 
       // set in req
       req.logged_in_user = decoded_user
@@ -34,14 +33,14 @@ const authHandler =
         throw new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized')
       }
 
-      if (!role) {
+      if (!email) {
         throw new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized')
       }
 
-      // check if the user has the required role
-      if (!user_roles.includes(role)) {
-        throw new ApiError(httpStatus.FORBIDDEN, 'forbidden')
-      }
+      // // check if the user has the required role
+      // if (!user_roles.includes(role)) {
+      //   throw new ApiError(httpStatus.FORBIDDEN, 'forbidden')
+      // }
 
       next()
     } catch (error) {

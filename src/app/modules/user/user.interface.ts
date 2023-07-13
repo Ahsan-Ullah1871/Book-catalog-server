@@ -8,13 +8,10 @@ export type IName = {
 
 export type IUser = {
   _id?: Types.ObjectId
-  phoneNumber: string
-  role: IUser_role
+  email: string
   password: string
   name: IName
   address: string
-  budget?: number
-  income?: number
 }
 
 // Create a new Model type that knows about IUserMethods when available here...
@@ -38,11 +35,12 @@ export type IUserFilter = {
 
 // user login interface
 export type IUserLogin = {
-  phoneNumber: string
+  email: string
   password: string
 }
 
 export type IUserLoginResponse = {
   accessToken: string
+  user_details: Partial<IUser>
   refreshToken?: string
 }

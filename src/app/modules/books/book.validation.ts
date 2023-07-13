@@ -1,6 +1,4 @@
 import { z } from 'zod'
-import { cow_categories, cow_label } from './book.constant'
-import { locations } from '../../../constant/common'
 
 export const create_book_zod_schema = z.object({
   body: z.object({

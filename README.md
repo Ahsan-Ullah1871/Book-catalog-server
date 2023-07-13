@@ -4,7 +4,7 @@ Welcome to the Online Cow Selling Backend for Eid Ul Adha! This assignment focus
 
 The primary objective of this assignment is to implement a range of essential features that will ensure a smooth and efficient user experience. These features include error handling, CRUD operations, pagination and filtering, transactions (including a simple transaction without a payment gateway), and the ability to add additional routes as necessary. By accomplishing these tasks, we aim to create a reliable and user-friendly platform that facilitates the buying and selling of cows during this special time.
 
-These docs describe how to use the [CowHut](https://cow-hut-sand.vercel.app/) API. We hope you enjoy these docs, and please don't hesitate to [file an issue](https://github.com/Programming-Hero-Web-Course4/l2a3-cow-hut-backend-assignment-Ahsan-Ullah1871/issues) if you see anything missing.
+These docs describe how to use the [BookCatalog](https://book-catalog-backend.vercel.app) API. We hope you enjoy these docs, and please don't hesitate to [file an issue](https://github.com/Programming-Hero-Web-Course4/l2a3-cow-hut-backend-assignment-Ahsan-Ullah1871/issues) if you see anything missing.
 
 ## Use Cases
 
@@ -859,4 +859,5 @@ GET /api/v1/users/my-profile
   type ICowCategories = 'Dairy' | 'Beef' | 'DualPurpose'
   type ICowLabel = 'for sale' | 'sold out'
   ```
+
 # Book-catalog-server

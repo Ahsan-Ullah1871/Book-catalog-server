@@ -5,6 +5,6 @@ import authHandler from '../../middlewares/authHandler'
 
 const router = express.Router()
 
-router.get('/my-profile', authHandler('buyer'), UserController.userProfile)
+router.get('/my-profile', authHandler(), UserController.userProfile)
 
 export const UserRoute = router

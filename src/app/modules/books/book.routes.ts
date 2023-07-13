@@ -12,29 +12,21 @@ const router = express.Router()
 
 router.post(
   '/',
-  authHandler('seller'),
+  authHandler(),
   requestValidationHandler(create_book_zod_schema),
   BookController.createBook
 )
 
-router.get(
-  '/',
-  authHandler('admin', 'buyer', 'seller'),
-  BookController.allBooks
-)
+router.get('/', BookController.allBooks)
 
-router.get(
-  '/:id',
-  authHandler('admin', 'buyer', 'seller'),
-  BookController.bookDetails
-)
+router.get('/:id', BookController.bookDetails)
 
 router.patch(
   '/:id',
-  authHandler('seller'),
+  authHandler(),
   requestValidationHandler(update_book_zod_schema),
   BookController.updateBook
 )
-router.delete('/:id', authHandler('seller'), BookController.deleteBook)
+router.delete('/:id', authHandler(), BookController.deleteBook)
 
-export const CowRoute = router
+export const BookRoute = router

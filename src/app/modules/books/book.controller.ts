@@ -10,7 +10,8 @@ import { pagination_keys } from '../../../constant/common'
 // Create Book
 const createBook = catchAsync(async (req: Request, res: Response) => {
   const { ...book_data } = req.body
-  const result = await BookServices.create_new_book(book_data)
+  const user_data = req.logged_in_user
+  const result = await BookServices.create_new_book(book_data, user_data)
 
   sendResponse(res, {
     status_code: httpStatus.OK,
@@ -23,10 +24,10 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
 //  updateBook
 const updateBook = catchAsync(async (req: Request, res: Response) => {
   const { id: book_id } = req.params
-  const { _id: seller_id } = req.logged_in_user
+  const { _id: owner_id } = req.logged_in_user
 
   const { ...book_data } = req.body
-  const result = await BookServices.update_book(book_data, book_id, seller_id)
+  const result = await BookServices.update_book(book_data, book_id, owner_id)
 
   sendResponse(res, {
     status_code: httpStatus.OK,

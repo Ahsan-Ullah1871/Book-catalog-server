@@ -10,21 +10,9 @@ const signupUser = catchAsync(async (req: Request, res: Response) => {
   const { ...user_data } = req.body
   const result = await AuthServices.user_signup(user_data)
 
-  sendResponse<Partial<IUser>, null>(res, {
-    status_code: httpStatus.OK,
-    success: true,
-    data: result,
-    message: 'User signed up successfully',
-  })
-})
-
-// login User
-const loginUser = catchAsync(async (req: Request, res: Response) => {
-  const { ...login_data } = req.body
-  const result = await AuthServices.user_login(login_data)
-
   const accessToken = result?.accessToken as string
   const refreshToken = result?.refreshToken as string
+  const user_details = result?.user_details as Partial<IUser>
 
   // cookies options
   const options = {
@@ -37,7 +25,32 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IUserLoginResponse, null>(res, {
     status_code: httpStatus.OK,
     success: true,
-    data: { accessToken },
+    data: { accessToken, user_details },
+    message: 'User signed up successfully',
+  })
+})
+
+// login User
+const loginUser = catchAsync(async (req: Request, res: Response) => {
+  const { ...login_data } = req.body
+  const result = await AuthServices.user_login(login_data)
+
+  const accessToken = result?.accessToken as string
+  const refreshToken = result?.refreshToken as string
+  const user_details = result?.user_details as Partial<IUser>
+
+  // cookies options
+  const options = {
+    httpOnly: true,
+    secure: false,
+  }
+
+  res.cookie('refreshToken', refreshToken, options)
+
+  sendResponse<IUserLoginResponse, null>(res, {
+    status_code: httpStatus.OK,
+    success: true,
+    data: { accessToken, user_details },
     message: 'User logged in successfully',
   })
 })
@@ -49,6 +62,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
 
   const accessToken = result?.accessToken as string
   const newRefreshToken = result?.refreshToken as string
+  const user_details = result?.user_details as Partial<IUser>
 
   // cookies options
   const options = {
@@ -61,7 +75,7 @@ const refreshToken = catchAsync(async (req: Request, res: Response) => {
   sendResponse<IUserLoginResponse, null>(res, {
     status_code: httpStatus.OK,
     success: true,
-    data: { accessToken },
+    data: { accessToken, user_details },
     message: 'New access token generated successfully !',
   })
 })

@@ -9,60 +9,66 @@ import { Secret } from 'jsonwebtoken'
 // Create new user
 const user_signup = async (
   user_data: IUser
-): Promise<Partial<IUser> | null> => {
-  if (!user_data?.income) {
-    user_data.income = 0
-  }
-  if (!user_data?.budget) {
-    user_data.budget = 0
-  }
-
+): Promise<IUserLoginResponse | null> => {
   const created_user = await User.create(user_data)
 
   const userWithoutPassword: Partial<IUser> = created_user.toObject()
   delete userWithoutPassword.password
 
-  return userWithoutPassword
+  // access token
+  const accessToken = jwtHelper.create_token(
+    { _id: userWithoutPassword?._id, email: userWithoutPassword?.email },
+    config.jwt.access_token_secret as Secret,
+    config.jwt.access_token_expiresIn as string
+  )
+  // refresh token
+  const refreshToken = jwtHelper.create_token(
+    { _id: userWithoutPassword?._id, email: userWithoutPassword?.email },
+    config.jwt.refresh_token_secret as Secret,
+    config.jwt.refresh_token_expiresIn as string
+  )
+
+  return { accessToken, refreshToken, user_details: userWithoutPassword }
 }
 
 // user_login
 const user_login = async (
   login_data: IUserLogin
 ): Promise<IUserLoginResponse | null> => {
-  const { phoneNumber, password } = login_data
+  const { email, password } = login_data
 
   // Admin checking
-  const isUserExist = await User.isUserExist(phoneNumber)
+  const isUserExist = await User.isUserExist(email)
 
   if (!isUserExist) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'User not found')
   }
 
-  const { password: admin_encrypted_password, ...othersUserData } = isUserExist
+  const { password: user_encrypted_password, ...othersUserData } = isUserExist
 
   // match password;
   if (
     isUserExist &&
-    admin_encrypted_password &&
-    !(await User.isPasswordMatched(admin_encrypted_password, password))
+    user_encrypted_password &&
+    !(await User.isPasswordMatched(user_encrypted_password, password))
   ) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid password')
   }
 
   // access token
   const accessToken = jwtHelper.create_token(
-    { _id: othersUserData?._id, role: othersUserData?.role },
+    { _id: othersUserData?._id, email: othersUserData?.email },
     config.jwt.access_token_secret as Secret,
     config.jwt.access_token_expiresIn as string
   )
   // refresh token
   const refreshToken = jwtHelper.create_token(
-    { _id: othersUserData?._id, role: othersUserData?.role },
+    { _id: othersUserData?._id, email: othersUserData?.email },
     config.jwt.refresh_token_secret as Secret,
     config.jwt.refresh_token_expiresIn as string
   )
 
-  return { accessToken, refreshToken }
+  return { accessToken, refreshToken, user_details: isUserExist }
 }
 
 // refresh_token
@@ -80,7 +86,7 @@ const refresh_token = async (
     // err
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Invalid refresh token')
   }
-  const { _id, role } = decoded_token
+  const { _id, email } = decoded_token
 
   // user checking verification
   const isUserExist = await User.isUserExistByID(_id)
@@ -90,18 +96,18 @@ const refresh_token = async (
 
   // access token
   const accessToken = jwtHelper.create_token(
-    { _id, role },
+    { _id, email },
     config.jwt.access_token_secret as Secret,
     config.jwt.access_token_expiresIn as string
   )
   // refresh token
   const refreshToken = jwtHelper.create_token(
-    { _id, role },
+    { _id, email },
     config.jwt.refresh_token_secret as Secret,
     config.jwt.refresh_token_expiresIn as string
   )
 
-  return { accessToken, refreshToken }
+  return { accessToken, refreshToken, user_details: isUserExist }
 }
 
 export const AuthServices = {

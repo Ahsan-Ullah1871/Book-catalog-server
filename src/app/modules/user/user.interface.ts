@@ -41,5 +41,6 @@ export type IUserLogin = {
 
 export type IUserLoginResponse = {
   accessToken: string
+  user_details: Partial<IUser>
   refreshToken?: string
 }

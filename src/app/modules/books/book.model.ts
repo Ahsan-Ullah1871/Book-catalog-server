@@ -10,8 +10,8 @@ const BookSchema = new Schema<IBook, BookModel>({
   added_by: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
 })
 
-//isBookOwner
-BookSchema.statics.validateCowOwnership = async function (
+//validateBookOwnership
+BookSchema.statics.validateBookOwnership = async function (
   book_id: Types.ObjectId,
   owner_id: Types.ObjectId
 ): Promise<Partial<IBook> | null> {
@@ -23,7 +23,7 @@ BookSchema.statics.validateCowOwnership = async function (
   return book
 }
 
-//isCowAvailable
+//isBookAvailable
 BookSchema.statics.isBookAvailable = async function (
   id: Types.ObjectId
 ): Promise<Partial<IBook> | null> {

@@ -1,7 +1,7 @@
 {
-  "name": "cow-hut",
+  "name": "book-catalog",
   "version": "1.0.0",
-  "description": "This is cow hut backend management system",
+  "description": "This is book catalog hut backend management system",
   "main": "src/server.ts",
   "scripts": {
     "test": "test",

@@ -1,9 +1,6 @@
 import { Model, Types } from 'mongoose'
 import { IUser } from '../user/user.interface'
 
-export type ICowCategories = 'Dairy' | 'Beef' | 'DualPurpose'
-export type ICowLabel = 'for sale' | 'sold out'
-
 export type IBook = {
   title: string
   author: string

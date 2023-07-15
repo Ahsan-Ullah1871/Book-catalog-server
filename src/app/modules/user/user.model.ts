@@ -21,13 +21,13 @@ const UserSchema = new Schema<IUser, UserModel>(
   }
 )
 
-//isUserExist  static method finding by user phoneNumber
+//isUserExist  static method finding by user email
 UserSchema.statics.isUserExist = async function (
-  phoneNumber: string
+  email: string
 ): Promise<Partial<IUser> | null> {
   return await User.findOne(
-    { phoneNumber },
-    { _id: 1, role: 1, password: 1, phoneNumber: 1 }
+    { email },
+    { _id: 1, role: 1, password: 1, email: 1 }
   ).lean()
 }
 //isUserExist  static method finding by user _id
@@ -38,11 +38,11 @@ UserSchema.statics.isUserExistByID = async function (
 }
 
 //isPhone Number Exist
-UserSchema.statics.isPhoneNumberExist = async function (
-  phoneNumber: string
+UserSchema.statics.isEmailExist = async function (
+  email: string
 ): Promise<boolean> {
   const isExist = await User.findOne({
-    phoneNumber: phoneNumber,
+    email: email,
   })
 
   return isExist ? true : false

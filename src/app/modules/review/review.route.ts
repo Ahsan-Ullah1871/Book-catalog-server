@@ -1,5 +1,5 @@
 import requestValidationHandler from '../../middlewares/requestValidationHandler'
-import { AuthController, ReviewController } from './review.controller'
+import { ReviewController } from './review.controller'
 
 import express from 'express'
 import { review_post_zod_schema } from './review.validation'

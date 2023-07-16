@@ -18,6 +18,8 @@ router.post(
 )
 
 router.get('/', BookController.allBooks)
+router.get('/latest-ten', BookController.latestTenBooks)
+
 router.get('/unique-filter-items', BookController.uniqueFilteringData)
 
 router.get('/:id', BookController.bookDetails)

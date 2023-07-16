@@ -14,4 +14,6 @@ router.post(
   ReviewController.postReview
 )
 
+router.get('/', ReviewController.getBookReviews)
+
 export const ReviewRoute = router

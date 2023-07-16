@@ -4,7 +4,7 @@ import { IReview, ReviewModel } from './review.interface'
 // And a schema that knows about IUserMethods
 const ReviewSchema = new Schema<IReview, ReviewModel>({
   rating: { type: Number, required: true },
-  review: { type: String, required: true, select: 0 },
+  review: { type: String, required: true },
   reviewed_by: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
   book_id: { type: Schema.Types.ObjectId, required: true, ref: 'Book' },
 })

@@ -5,7 +5,7 @@ import { Request, Response } from 'express'
 import { ReviewServices } from './review.services'
 import { IReview } from './review.interface'
 
-// refreshToken
+// post review]
 const postReview = catchAsync(async (req: Request, res: Response) => {
   const { ...review_data } = req.body
 
@@ -21,6 +21,21 @@ const postReview = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+// getBookReviews
+const getBookReviews = catchAsync(async (req: Request, res: Response) => {
+  const result = await ReviewServices.get_reviews_by_id(
+    req.query?.bookID as string
+  )
+
+  sendResponse<IReview[], null>(res, {
+    status_code: httpStatus.OK,
+    success: true,
+    data: result,
+    message: 'Book reviews ',
+  })
+})
+
 export const ReviewController = {
   postReview,
+  getBookReviews,
 }

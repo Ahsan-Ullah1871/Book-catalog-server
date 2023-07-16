@@ -6,6 +6,10 @@ export const filter_book_conditions = (
 ): { [key: string]: Array<Record<string, any>> } | undefined => {
   const { searchTerm, ...filter_keys } = filers
 
+  console.log('====================================')
+  console.log({ searchTerm })
+  console.log('====================================')
+
   const conditions = []
 
   if (searchTerm) {

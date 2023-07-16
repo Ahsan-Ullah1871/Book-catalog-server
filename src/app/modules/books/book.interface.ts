@@ -21,7 +21,7 @@ export type BookModel = {
     book_id: Types.ObjectId,
     owner_id: Types.ObjectId
   ): Promise<Partial<IBook> | null>
-  isBookAvailable(id: Types.ObjectId): Promise<Partial<IBook> | null>
+  isBookAvailable(id: Types.ObjectId | string): Promise<Partial<IBook> | null>
 } & Model<IBook>
 
 export type IBookFilter = {

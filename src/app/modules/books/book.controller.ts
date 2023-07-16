@@ -51,6 +51,17 @@ const allBooks = catchAsync(async (req: Request, res: Response) => {
     message: 'Books retrieved successfully',
   })
 })
+//  Get all latestTenBooks
+const latestTenBooks = catchAsync(async (req: Request, res: Response) => {
+  const result = await BookServices.latest_ten_books()
+
+  sendResponse(res, {
+    status_code: httpStatus.OK,
+    success: true,
+    data: result,
+    message: 'Books retrieved successfully',
+  })
+})
 
 //  Get all books
 const uniqueFilteringData = catchAsync(async (req: Request, res: Response) => {
@@ -99,4 +110,5 @@ export const BookController = {
   deleteBook,
   allBooks,
   uniqueFilteringData,
+  latestTenBooks,
 }

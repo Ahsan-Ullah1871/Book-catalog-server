@@ -1,5 +1,4 @@
 import { Model, Types } from 'mongoose'
-import { IUser_role } from '../../../interfaces/common'
 import { IUser } from '../user/user.interface'
 import { IBook } from '../books/book.interface'
 

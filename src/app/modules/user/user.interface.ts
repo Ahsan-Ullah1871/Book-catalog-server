@@ -16,18 +16,18 @@ export type IUser = {
 
 // Create a new Model type that knows about IUserMethods when available here...
 export type UserModel = {
-  isUserExist(phoneNumber: string): Promise<IUser | null>
+  isUserExist(email: string): Promise<IUser | null>
   isUserExistByID(_id: Types.ObjectId | string): Promise<IUser | null>
   isPasswordMatched(
     encrypted_pass: string,
     given_pass: string
   ): Promise<boolean>
-  isPhoneNumberExist(phoneNumber: string): Promise<boolean>
+  isEmailExist(email: string): Promise<boolean>
 } & Model<IUser>
 
 // User filter type
 export type IUserFilter = {
-  phoneNumber?: string
+  email?: string
   role?: IUser_role
   address?: string
   searchTerm?: string

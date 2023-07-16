@@ -23,14 +23,13 @@ export const filter_book_conditions = (
   if (Object.keys(filter_keys).length) {
     conditions.push({
       $and: Object.entries(filter_keys).map(([key, value]) => {
-        // if (key === 'minPrice') {
-        //   return { price: { $gte: value } }
-        // } else if (key === 'maxPrice') {
-        //   return { price: { $lte: value } }
-        // } else {
-        //   return { [key]: value }
-        // }
-        return { [key]: value }
+        if (key === 'publication_date') {
+          return { publication_date: { $regex: '^' + value } }
+        } else if (key === 'genre') {
+          return { genre: new RegExp(`\\b${value}\\b`, 'i') }
+        } else {
+          return { [key]: value }
+        }
       }),
     })
   }

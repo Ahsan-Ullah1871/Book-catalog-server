@@ -5,7 +5,14 @@ export type IBook = {
   title: string
   author: string
   genre: string
-  publication_date: Date
+  publisher: string
+  language: string
+  pages: number
+  rating: number
+  description: string
+  cover_image: string
+  keynotes: string[]
+  publication_date: string
   added_by: Types.ObjectId | IUser
 }
 
@@ -23,4 +30,9 @@ export type IBookFilter = {
   genre?: string
   publication_date?: string
   searchTerm?: string
+}
+
+export type IBookFilteringItems = {
+  all_genre: string[]
+  all_publication_date: string[]
 }

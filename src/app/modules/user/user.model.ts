@@ -27,7 +27,7 @@ UserSchema.statics.isUserExist = async function (
 ): Promise<Partial<IUser> | null> {
   return await User.findOne(
     { email },
-    { _id: 1, role: 1, password: 1, email: 1 }
+    { _id: 1, role: 1, password: 1, email: 1, name: 1, address: 1 }
   ).lean()
 }
 //isUserExist  static method finding by user _id

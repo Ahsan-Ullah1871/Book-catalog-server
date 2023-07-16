@@ -52,6 +52,18 @@ const allBooks = catchAsync(async (req: Request, res: Response) => {
   })
 })
 
+//  Get all books
+const uniqueFilteringData = catchAsync(async (req: Request, res: Response) => {
+  const result = await BookServices.get__unique_filtering_items()
+
+  sendResponse(res, {
+    status_code: httpStatus.OK,
+    success: true,
+    data: result,
+    message: 'Filtering Items retrieved successfully',
+  })
+})
+
 //   Get   Book Details
 const bookDetails = catchAsync(async (req: Request, res: Response) => {
   const { id } = req.params
@@ -86,4 +98,5 @@ export const BookController = {
   updateBook,
   deleteBook,
   allBooks,
+  uniqueFilteringData,
 }

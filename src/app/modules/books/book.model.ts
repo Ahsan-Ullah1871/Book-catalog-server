@@ -2,11 +2,19 @@ import { Schema, Types, model } from 'mongoose'
 import { BookModel, IBook } from './book.interface'
 
 // And a schema that knows about IUserMethods
+
 const BookSchema = new Schema<IBook, BookModel>({
   title: { type: String, required: true },
   author: { type: String, required: true },
+  publisher: { type: String, required: true },
+  language: { type: String, required: true },
+  pages: { type: Number, required: true },
+  rating: { type: Number, required: true },
   genre: { type: String, required: true },
-  publication_date: { type: Date, required: true },
+  description: { type: String, required: true },
+  cover_image: { type: String, required: true },
+  keynotes: { type: [String], required: true },
+  publication_date: { type: String, required: true },
   added_by: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
 })
 

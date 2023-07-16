@@ -3,7 +3,11 @@ import { GenericResponse } from '../../../interfaces/common'
 import { IPagination } from '../../../interfaces/pagination'
 import { filter_book_conditions } from './book.condition'
 import ApiError from '../../errors/ApiError'
-import { IBook, IBookFilter } from './book.interface'
+import {
+  IBook,
+  IBookFilter,
+  IBookFilteringItems as IBookUniqueFilteringItems,
+} from './book.interface'
 import { Book } from './book.model'
 import { User } from '../user/user.model'
 import { IUser } from '../user/user.interface'
@@ -18,7 +22,7 @@ const create_new_book = async (
 ): Promise<IBook | null> => {
   // User checking
   const isUserExist: IUser | null = await User.isUserExistByID(
-    user_data?.id as Types.ObjectId
+    user_data?._id as Types.ObjectId
   )
 
   if (!isUserExist) {
@@ -58,6 +62,17 @@ const gel_all_books = async (
   }
 }
 
+//  gel_all_genre
+const get__unique_filtering_items =
+  async (): Promise<GenericResponse<IBookUniqueFilteringItems> | null> => {
+    // and conditions (for search and filter)
+    const all_genre = await Book.distinct('genre')
+    const all_publication_date = await Book.distinct('publication_date')
+    return {
+      data: { all_genre, all_publication_date },
+    }
+  }
+
 //book detail
 const get_book_details = async (id: string): Promise<IBook | null> => {
   const isExist = await Book.findById(id)
@@ -67,7 +82,7 @@ const get_book_details = async (id: string): Promise<IBook | null> => {
   }
 
   //
-  const book_details = await Book.findById(id)
+  const book_details = await Book.findById(id).populate('added_by')
 
   return book_details
 }
@@ -91,7 +106,7 @@ const update_book = async (
 
   const updated_book_data = await Book.findByIdAndUpdate(book_id, book_data, {
     new: true,
-  })
+  }).populate('added_by')
 
   if (!updated_book_data) {
     throw new ApiError(
@@ -118,7 +133,7 @@ const delete_book = async (
     )
   }
 
-  const book = await Book.findByIdAndDelete(book_id)
+  const book = await Book.findByIdAndDelete(book_id).populate('added_by')
 
   if (!book) {
     throw new ApiError(httpStatus.EXPECTATION_FAILED, 'Failed to delete book')
@@ -133,4 +148,5 @@ export const BookServices = {
   gel_all_books,
   get_book_details,
   delete_book,
+  get__unique_filtering_items,
 }

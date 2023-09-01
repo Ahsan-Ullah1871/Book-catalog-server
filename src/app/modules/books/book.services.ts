@@ -132,6 +132,7 @@ const delete_book = async (
   owner_id: Types.ObjectId
 ): Promise<IBook | null> => {
   // book User checking
+
   if (
     !(await Book.validateBookOwnership(book_id as Types.ObjectId, owner_id))
   ) {
